@@ -47,12 +47,17 @@ class ContactTest extends TestCase
     public function TestValidEmail()
     {
         $email = $this->contact->getEmail();
-        $this->asserRegExp(FILTER_VALIDATE_EMAIL, $email);
+        $this->assertRegExp(FILTER_VALIDATE_EMAIL, $email);
     }
 
     public function TestValidPhoneNumber()
     {
+         $this->assertRegExp('/^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$/', $this->contact->getPhonenumber());
+         $this->contact->setPhoneNumber('+33323000000');
+         $this->assertRegExp('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\0-9]*$/', $this->contact->getPhoneNumber());
 
+          $this->contact->setPhoneNumber('03-23-00-00-00');
+          $this->assertRegExp('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\0-9]*$/', $this->contact->getPhoneNumber());
     }
 
 }
